@@ -1,0 +1,51 @@
+#include <Arduino.h>
+
+// Relay pins
+const int lightRelay = 7;
+const int fanRelay   = 8;
+
+// Bluetooth commands
+char command;
+
+void setup() {
+    pinMode(lightRelay, OUTPUT);
+    pinMode(fanRelay, OUTPUT);
+
+    // Relays OFF initially
+    digitalWrite(lightRelay, HIGH);
+    digitalWrite(fanRelay, HIGH);
+
+    Serial.begin(9600);
+}
+
+void loop() {
+
+    if (Serial.available() > 0) {
+
+        command = Serial.read();
+
+        // Light ON
+        if (command == 'L') {
+            digitalWrite(lightRelay, LOW);
+            Serial.println("Light ON");
+        }
+
+        // Light OFF
+        else if (command == 'l') {
+            digitalWrite(lightRelay, HIGH);
+            Serial.println("Light OFF");
+        }
+
+        // Fan ON
+        else if (command == 'F') {
+            digitalWrite(fanRelay, LOW);
+            Serial.println("Fan ON");
+        }
+
+        // Fan OFF
+        else if (command == 'f') {
+            digitalWrite(fanRelay, HIGH);
+            Serial.println("Fan OFF");
+        }
+    }
+}
